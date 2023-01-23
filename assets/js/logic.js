@@ -10,108 +10,120 @@ endScreen = document.querySelector("#end-screen")
 finalScore = document.querySelector("#final-score")
 initials = document.querySelector("#initials")
 submiT = document.querySelector("#submit")
+feedbackEl =document.querySelector("#feedback")
+
+
+
+
+
+
+var count = 60;
+
+var runningIndex = 0;
+var lastIndex = questionBank.length-1;
+score = 0;
+highscores = [];
+var timer;
+
+
+function startQuiz () {
+    startScreen.setAttribute("style", "display: none")
+    questCont.removeAttribute("class")
+    
+    timer = setInterval(timerOn, 1000);
+    timerEl.textContent = count;
+    
+    
+}
+
+function timerOn () {
+    
+    
+        count--;
+        timerEl.textContent = count
+    
+
+    // renderQuestion ()
+    if (count <= 0) {
+        scoreRender()
+    }
+}
+ 
+
 
 
 
 startButton.addEventListener("click", startQuiz)
 
-function startQuiz () {
-    startScreen.setAttribute("style", "display: none")
-    questCont.removeAttribute("class")
-    timerOn()
-}
-
-
-var count = 60;
-score = 0;
-var runningIndex = 0;
-var lastIndex = questionBank.length-1;
-score = 0;
-highscores = [];
-
-var event = renderQuestion()
-checkAnswer ()
-
-
-function timerOn () {
-    
-    var timer = setInterval(function() {
-        count--;
-        timerEl.textContent = count
-      }, 1000)
-
-    // renderQuestion ()
-}
-    
 function renderQuestion () {
     
     var runningQuest = questionBank[runningIndex];
 
     questTitle.innerHTML = runningQuest.question;
+    questChoices.innerHTML = ""
     var option1 = document.createElement("button");
-    option1.setAttribute("on-click", "checkAnswer(event)");
+    option1.setAttribute("data-index", "1");
     option1.innerHTML = runningQuest.choices[0]
     questChoices.append(option1);
     option1.addEventListener("click", checkAnswer)
      
     var option2 = document.createElement("button");
-    option2.setAttribute("on-click", "checkAnswer(event)");
+    option2.setAttribute("data-index", "2");
     option2.innerHTML = runningQuest.choices[1]
     questChoices.append(option2);
     option2.addEventListener("click", checkAnswer)
 
     var option3 = document.createElement("button");
-    option3.setAttribute("on-click", "checkAnswer(event)");
+    option3.setAttribute("data-index", "3");
     option3.innerHTML = runningQuest.choices[2]
     questChoices.append(option3);
     option3.addEventListener("click", checkAnswer)
 
     var option4 = document.createElement("button");
-    option4.setAttribute("on-click", "checkAnswer(event)");
+    option4.setAttribute("data-index", "4");
     option4.innerHTML = runningQuest.choices[3]
     questChoices.append(option4);
     option4.addEventListener("click", checkAnswer)
-
-    return Event;
+    
 }
-
 
 function checkAnswer(event) {
     
-    console.log(event)
-    // dIndex = element.getAttribute("data-index");
 
-    if (runningQuest[runningIndex].choices[dIndex] == runningQuest[runningIndex].answer) {
+    
+
+    if (this.value === questionBank[runningIndex].answer) {
         // answer is correct 
         correct ();
-        // score++
-        score++
+        console.log(event.target)
         
     } else {
         // answer is wrong
+        count = count -10
+        if (count < 0) {
+            count = 0
+        }
+        timerEl.textContent = count
         wrong ();
-        // count = count - 2
-        count = count -2
+        console.log(event.target)
+    
+       
     }
 
-    if (runningIndex < lastIndex || count > 0) {
+    if (runningIndex < questionBank.length) {
         runningIndex++
         renderQuestion ()
     } else {
-        // end the quiz
-        clearInterval(timer);
-        scoreRender ();
-        
-
-
+        scoreRender();
     }
 }
 
 
 function scoreRender () {
+    clearInterval(timer)
     questCont.setAttribute("class", "hide")
     endScreen.removeAttribute("class")
-    finalScore.textContent = score
+    finalScore.textContent = count
     
     sendToStorage()
 }
@@ -120,7 +132,7 @@ function scoreRender () {
 function sendToStorage (userScore, userName) {
     var userName = initials.value.trim()
     var userScore = finalScore.textContent
-    
+
 
 }
 
@@ -128,11 +140,27 @@ function sendToStorage (userScore, userName) {
 function correct () {
     sfxRight = new Audio("assets/sfx/correct.wav")
     sfxRight.play()
+    feedbackEl.textContent = "correct!"
+
+    feedbackEl.removeAttribute("class", "hide");
+    setTimeout(() => {
+        feedbackEl.setAttribute("class", "hide")
+    }, 1000);
+    
+
+    
+
 }                
 
 function wrong () {
     var sfxWrong = new Audio("assets/sfx/incorrect.wav");
     sfxWrong.play()
+    feedbackEl.textContent = "wrong!"
+    feedbackEl.removeAttribute("class", "hide");
+    setTimeout(() => {
+        feedbackEl.setAttribute("class", "hide")
+    }, 1000);
+    
 }
 
 
