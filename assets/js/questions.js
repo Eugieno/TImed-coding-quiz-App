@@ -1,4 +1,4 @@
-var questions = [
+var questionBank = [
     {
     question: "Which of the following object is the main entry point to all client-side JavaScript features and APIs?",
     choices: ["Position", "Window", "Standard", "Location"],
@@ -57,8 +57,6 @@ var questions = [
 }
 ]
 
-for (i of questions) {
-    console.log(i.question)
-}
+
 
 

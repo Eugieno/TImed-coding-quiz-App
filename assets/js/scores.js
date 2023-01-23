@@ -1,0 +1,1 @@
+clearBtn = document.querySelector("#clear")
