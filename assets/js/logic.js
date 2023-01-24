@@ -1,62 +1,54 @@
 // Query selectors 
-startScreen = document.querySelector("#start-screen")
-startButton = document.querySelector("#start")
-questCont = document.querySelector("#questions")
-questTitle = document.querySelector("#question-title")
-questChoices = document.querySelector("#choices")
-timerEl = document.querySelector("#time")
-submit = document.querySelector("#submit")
-endScreen = document.querySelector("#end-screen")
-finalScore = document.querySelector("#final-score")
-initials = document.querySelector("#initials")
-submiT = document.querySelector("#submit")
-feedbackEl =document.querySelector("#feedback")
+var startScreen = document.querySelector("#start-screen")
+var startButton = document.querySelector("#start")
+var questCont = document.querySelector("#questions")
+var questTitle = document.querySelector("#question-title")
+var questChoices = document.querySelector("#choices")
+var timerEl = document.querySelector("#time")
+var submit = document.querySelector("#submit")
+var endScreen = document.querySelector("#end-screen")
+var finalScore = document.querySelector("#final-score")
+var initials = document.querySelector("#initials")
+var submiT = document.querySelector("#submit")
+var feedbackEl = document.querySelector("#feedback")
 
-
-
-
-
-
+// Initialisations
 var count = 60;
-
 var runningIndex = 0;
-var lastIndex = questionBank.length-1;
-score = 0;
-highscores = [];
+var lastIndex = questionBank.length - 1;
 var timer;
 
-
-function startQuiz () {
+// Quiz to start function 
+function startQuiz() {
     startScreen.setAttribute("style", "display: none")
     questCont.removeAttribute("class")
-    
+
     timer = setInterval(timerOn, 1000);
     timerEl.textContent = count;
-    
-    
+    renderQuestion()
+
 }
 
-function timerOn () {
-    
-    
-        count--;
-        timerEl.textContent = count
-    
+// Function to set timer 
+function timerOn() {
+    count--;
+    timerEl.textContent = count
+
 
     // renderQuestion ()
     if (count <= 0) {
+        clearInterval(timer)  /////////////
         scoreRender()
     }
 }
- 
 
-
-
-
+// Event Listener to for start Button 
 startButton.addEventListener("click", startQuiz)
 
-function renderQuestion () {
-    
+
+// Function to render questions
+function renderQuestion() {
+
     var runningQuest = questionBank[runningIndex];
 
     questTitle.innerHTML = runningQuest.question;
@@ -66,7 +58,7 @@ function renderQuestion () {
     option1.innerHTML = runningQuest.choices[0]
     questChoices.append(option1);
     option1.addEventListener("click", checkAnswer)
-     
+
     var option2 = document.createElement("button");
     option2.setAttribute("data-index", "2");
     option2.innerHTML = runningQuest.choices[1]
@@ -84,60 +76,74 @@ function renderQuestion () {
     option4.innerHTML = runningQuest.choices[3]
     questChoices.append(option4);
     option4.addEventListener("click", checkAnswer)
-    
+
 }
 
+// Function to check answers
 function checkAnswer(event) {
-    
 
-    
 
-    if (this.value === questionBank[runningIndex].answer) {
+    if (this.textContent === questionBank[runningIndex].answer) {
         // answer is correct 
-        correct ();
-        console.log(event.target)
-        
+        correct();
+
     } else {
         // answer is wrong
-        count = count -10
-        if (count < 0) {
+        if (count >= 10) {
+            count = count - 10
+        } else {
             count = 0
+            clearInterval(timer)
+            scoreRender()
         }
+        // count = count - 10
+        // if (count < 0) {
+        //     count = 0
+        // }
         timerEl.textContent = count
-        wrong ();
-        console.log(event.target)
-    
-       
+        wrong();
+
     }
 
-    if (runningIndex < questionBank.length) {
+    if (runningIndex < lastIndex) {
         runningIndex++
-        renderQuestion ()
+        renderQuestion()
     } else {
         scoreRender();
     }
 }
 
 
-function scoreRender () {
+function scoreRender() {
     clearInterval(timer)
     questCont.setAttribute("class", "hide")
     endScreen.removeAttribute("class")
     finalScore.textContent = count
-    
+
     sendToStorage()
 }
-        
 
-function sendToStorage (userScore, userName) {
+
+function sendToStorage(userName) {
     var userName = initials.value.trim()
-    var userScore = finalScore.textContent
+    if (userName) {
+        var highscore = JSON.parse(localStorage.getItem("topScore")) || []
+        var newScore = {
+            score: count,
+            init: userName
+
+        }
+        highscore.push(newScore)
+
+        localStorage.setItem("topScore", JSON.stringify(highscore))
+        window.location.href = "highscores.html"
+    }
 
 
 }
 
 
-function correct () {
+function correct() {
     sfxRight = new Audio("assets/sfx/correct.wav")
     sfxRight.play()
     feedbackEl.textContent = "correct!"
@@ -146,13 +152,13 @@ function correct () {
     setTimeout(() => {
         feedbackEl.setAttribute("class", "hide")
     }, 1000);
-    
 
-    
 
-}                
 
-function wrong () {
+
+}
+
+function wrong() {
     var sfxWrong = new Audio("assets/sfx/incorrect.wav");
     sfxWrong.play()
     feedbackEl.textContent = "wrong!"
@@ -160,40 +166,17 @@ function wrong () {
     setTimeout(() => {
         feedbackEl.setAttribute("class", "hide")
     }, 1000);
-    
+
 }
 
 
- // Event Listeners
- submiT.addEventListener("click", function (event) {
-    event.preventDefault();
-
- })
-        
-   
-//     - Get Question and display it on the page 
-//         - Grabbing the question from the questions array inside of questions.js file. 
-//         - These get displayed in the choices div.
-//         - What happens when each choice has been clicked? 
-//             - Need to display feedback: lets the user know if it was answered correctly or incorrectly. 
-//             - Also, need to play a sound effect if it is right or wrong. There is a folder with two different sound effects inside. 
-//             The Audio needs to be imported into logic.js:
-
-// var sfxRight = new Audio("assets/sfx/correct.wav");
-
-                
-//             Example of how to call:
-//             sfxWrong.play();
-//             - If the user answers incorrectly then time is taken off of the timer
-        
-//     - End the Quiz
-//       - what needs to happen here? 
-//         - Display high scores
-//         - Stop the timer
-
-//     - function to handle saving the high score
-//       - make sure to add the final score to localstorage
-
 // Event Listeners
+submiT.addEventListener("click", function (event) {
+    sendToStorage()
+
+})
+
+
+
 
 
