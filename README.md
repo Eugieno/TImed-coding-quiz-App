@@ -11,11 +11,11 @@ Follow the [App URL](https://eugieno.github.io/timed-coding-quiz-App/). You will
 
 ![example question](./assets/images/example-question.JPG)
 
-At the end of the quiz, you have the option to save your Final score and your name or initials to your local storage as seen below
+At the end of the quiz, you have the option to save your Final score and your name or initials to your local storage as seen below. Clicking the submit button stores your data and displays it on a score board. 
 
 ![end screen](./assets/images/end-screen.JPG)
 
-You could also clear your local storage by clicking the clear Highscores button indicated in red in the snapshot below. The Go back button takes you to the home screen. 
+From your score board, you could clear your local storage by clicking the clear Highscores button indicated in red in the snapshot below. The Go back button takes you to the home screen. 
 
 ![clear highscores](./assets/images/clear-highscore%20.png)
 
