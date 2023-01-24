@@ -21,13 +21,13 @@ From your score board, you could clear your local storage by clicking the clear 
 
 
 ## Reflection 
-This was a challenge project built during my 6th module at the University of Birmingahm FE web devopment bootcamp. 
+This was a challenge project built during my 6th module at the University of Birmingham FE web devopment bootcamp. 
 
 Project goals included using my knowledge of web APIs, objects/data structures, and functions in JS together with HTML and CSS, learned up until this point in the bootcamp to build a dynamic web app.
 
 The main challenge I ran into was checking the user's answer against the correct answer in my question bank's array of objects. This led me to spend a few hours researching, during which I learned a few more window objects, properties and methods that were not covered as part of the bootcamp lesson. 
 
-At the end, the technology implmented in this project are JS, HTML and CSS. 
+At the end, the technology implemented in this project are JS, HTML and CSS. 
 
 ## Upcoming (New) Features
 I plan to include the following features to extend the functonality and UI/UX of this web App
