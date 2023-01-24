@@ -153,6 +153,8 @@ function sendToStorage(userName) {
         }
         highscore.push(newScore)
 
+          
+
         localStorage.setItem("topScore", JSON.stringify(highscore))
         window.location.href = "highscores.html"
     }
