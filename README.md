@@ -7,7 +7,7 @@ This quiz App is a browser app that renders timed multiple choice coding questio
 ![UI of Web App](./assets/images/start-screen.png)
 
 ## Usage Instruction/Features
-Follow the [App URL](). You will land on the home screen shown above. Click on the start quiz button to begin. Try to answer all questions correctly within the allotted time. Deduction of 10 seconds is triggered for each incorrect answers. Your final score is the total allotted time less the time spent in answering the questions. Find below an example question
+Follow the [App URL](https://eugieno.github.io/timed-coding-quiz-App/). You will land on the home screen shown above. Click on the start quiz button to begin. Try to answer all questions correctly within the allotted time. Deduction of 10 seconds is triggered for each incorrect answers. Your final score is the total allotted time less the time spent in answering the questions. Find below an example question
 
 ![example question](./assets/images/example-question.JPG)
 
