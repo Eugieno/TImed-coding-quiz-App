@@ -11,6 +11,7 @@ var finalScore = document.querySelector("#final-score")
 var initials = document.querySelector("#initials")
 var submiT = document.querySelector("#submit")
 var feedbackEl = document.querySelector("#feedback")
+var finalFeedbackEl = document.querySelector("#final-feedback")
 
 // Initialisations
 var count = 60;
@@ -34,10 +35,8 @@ function timerOn() {
     count--;
     timerEl.textContent = count
 
-
-    // renderQuestion ()
     if (count <= 0) {
-        clearInterval(timer)  /////////////
+        clearInterval(timer)  
         scoreRender()
     }
 }
@@ -113,17 +112,36 @@ function checkAnswer(event) {
     }
 }
 
-
+// Function to render score at the end of screen 
 function scoreRender() {
     clearInterval(timer)
     questCont.setAttribute("class", "hide")
     endScreen.removeAttribute("class")
     finalScore.textContent = count
 
+    feedback ()
+
     sendToStorage()
 }
 
+// Function to display final feedback at the end of screen
+function feedback () {
+    finalFeedbackEl.removeAttribute("class")
+    if (finalScore.textContent <= 10) {
+        finalFeedbackEl.textContent = "You can do better!" + " A quick revision of fundamental JS concepts will suffice."
+    } else if (finalScore.textContent > 10 && finalScore.textContent <= 20) {
+        finalFeedbackEl.textContent = "That is a decent effort!" + " Have a go again to improve your score." + " Your time efficiency is "+ ((finalScore.textContent/60)*100).toFixed() +"%"
+    } else if (finalScore.textContent > 20 && finalScore.textContent <= 30) {
+        finalFeedbackEl.textContent = "Welldone, that's a really good effort!" + " You can improve on this." + " Your time efficiency is "+ ((finalScore.textContent/60)*100).toFixed() +"%"
+    } else if (finalScore.textContent > 30 && finalScore.textContent <= 45) {
+        finalFeedbackEl.textContent = "Good job! that's a really good performance" + " Your time efficiency is "+ ((finalScore.textContent/60)*100).toFixed() +"%"
+    } else {
+        finalFeedbackEl.textContent = "Fantastic! You are a JS pro!" + " Your time efficiency is "+ ((finalScore.textContent/60)*100).toFixed() +"%"
+    }
+}
 
+
+// Function to send user's initial and score to local storage 
 function sendToStorage(userName) {
     var userName = initials.value.trim()
     if (userName) {
@@ -142,22 +160,19 @@ function sendToStorage(userName) {
 
 }
 
-
+// Function for correct user's answer
 function correct() {
     sfxRight = new Audio("assets/sfx/correct.wav")
     sfxRight.play()
     feedbackEl.textContent = "correct!"
 
     feedbackEl.removeAttribute("class", "hide");
-    setTimeout(() => {
+    var myTimeout = setTimeout(() => {
         feedbackEl.setAttribute("class", "hide")
     }, 1000);
-
-
-
-
 }
 
+// Function for wrong user answer
 function wrong() {
     var sfxWrong = new Audio("assets/sfx/incorrect.wav");
     sfxWrong.play()
@@ -170,7 +185,7 @@ function wrong() {
 }
 
 
-// Event Listeners
+// Event Listeners for submit button 
 submiT.addEventListener("click", function (event) {
     sendToStorage()
 
