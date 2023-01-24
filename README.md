@@ -15,7 +15,7 @@ At the end of the quiz, you have the option to save your Final score and your na
 
 ![end screen](./assets/images/end-screen.JPG)
 
-You could also clear your local storage by clicking the clear Highscores button indicated in red in the snapshot below.
+You could also clear your local storage by clicking the clear Highscores button indicated in red in the snapshot below. The Go back button takes you to the home screen. 
 
 ![clear highscores](./assets/images/clear-highscore%20.png)
 
